@@ -6,6 +6,39 @@
   background: #FFFFFF;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 126%;
+  letter-spacing: -0.01em;
+  color: #3F3E3A;
+}
+
+.subtitle {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 126%;
+  letter-spacing: -0.01em;
+  color: #3F3E3A;
+}
+
+.subtitle-2 {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 126%;
+  letter-spacing: -0.01em;
+  color: #3F3E3A;
+}
+
+.bold {
+  font-weight: 700;
+}
+
 .button-contained {
   height: 46px;
   width: 159px;
@@ -13,23 +46,44 @@
   top: 551px;
   border-radius: 4px;
   padding: 0px 15px 0px 15px;
-}
-
-.show-more {
-  font-family: Helvetica;
+  background: #5C7BEB;
+  color: #FFFFFF;
+  border: none;
   font-size: 16px;
   font-weight: 700;
   line-height: 18px;
   letter-spacing: 0px;
   text-align: center;
+}
 
+@media (max-width: 450px) {
+  .button-contained {
+    width: 100%;
+  }
+}
+
+.show-more {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0px;
+  text-align: center;
+}
+
+
+.error-input {
+  border-color: #d32f2f
+}
+
+.error-text {
+  color: #d32f2f
 }
 
 .zoe-logo {
   position: absolute;
   left: 2.2%;
   right: 91.39%;
-  top: 2%;
+  top: 3%;
   bottom: 91.83%;
 }
 
@@ -39,4 +93,120 @@
   height: 80px;
   left: 0px;
   top: 0px;
+}
+
+.card {
+  box-shadow: 0px 8px 16px 0px #1D233A1A;
+  /* width: 288px;
+  height: 308px; */
+
+  background: #FFFFFF;
+  box-shadow: 0px 8px 16px rgba(29, 35, 58, 0.1);
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 32px;
+  gap: 16px;
+}
+
+.card-body {
+  flex-grow: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.card-name {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 23px;
+/* identical to box height */
+  text-align: center;
+  
+}
+
+.card-id {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  color: #5F5F5F;
+}
+
+.card-footer {
+  background: #F5F5F5;
+  box-shadow: 0px 8px 16px rgba(29, 35, 58, 0.1);
+  position: relative;
+  width: 100%;
+  height: 67px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.income-label {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #5F5F5F;
+}
+.income-value {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: #5F5F5F;
+}
+
+.caption {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #5F5F5F;
+}
+
+.no-gutters {
+  margin: 0px;
+}
+
+.form {
+  display: flex;
+  align-self: center;
+  padding: 0px 32px;
+  max-width: 320px;
+  gap: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pagination-button {
+  border: none;
+  color: #5C7BEB;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+}
+
+button:disabled.pagination-button {
+  color: #B4B4B4;
 }
