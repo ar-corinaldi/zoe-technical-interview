@@ -21,7 +21,9 @@ function App() {
         {pageState === "income" && (
           <IncomePage setPageState={setPageState} setIncome={setIncome} />
         )}
-        {pageState === "match" && <MatchPage income={income} />}
+        {pageState === "match" && (
+          <MatchPage income={income} setPageState={setPageState} />
+        )}
         {!["income", "match"].includes(pageState) && <div>Page Not Found</div>}
       </main>
     </React.Fragment>

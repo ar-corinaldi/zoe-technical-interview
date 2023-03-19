@@ -17,6 +17,7 @@ import Filter, { type FilterTypes } from "../components/Filter";
  */
 type MatchPageProps = {
   income: number;
+  setPageState: (x: "income" | "match") => void;
 };
 
 const THRESHOLD_VALUE = 10000;
@@ -49,14 +50,17 @@ const filterAndSortingAgentsByThreshold = ({
   return strategSortByFilter[filter](sortedAgents, income);
 };
 
-function numberWithCommas(x: number) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+function numberFormatted(x: number) {
+  return `$${x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
 const ELEMENTS_PER_PAGE = 3;
 
 function MatchPage(props: MatchPageProps) {
-  const [agents, setAgents] = React.useState<IAgent[]>([]);
+  const [agents, setAgents] = React.useState<{
+    hasLoaded: boolean;
+    value: IAgent[];
+  }>({ hasLoaded: false, value: [] });
   const [elementsIndex, setElementsIndex] = React.useState(3);
   const [filter, setFilter] = React.useState<FilterTypes>(
     "(Default) Income: Closest first"
@@ -69,13 +73,14 @@ function MatchPage(props: MatchPageProps) {
     fetch("AGENTS_LIST.json")
       .then((req) => req.json())
       .then((agents) => {
-        setAgents(
-          filterAndSortingAgentsByThreshold({
-            agents,
+        setAgents({
+          hasLoaded: true,
+          value: filterAndSortingAgentsByThreshold({
             income: props.income,
+            agents,
             filter,
-          })
-        );
+          }),
+        });
       });
   }, [filter]);
 
@@ -111,29 +116,49 @@ function MatchPage(props: MatchPageProps) {
           <h3 className="title no-gutters">Your matches</h3>
           <h5 className="subtitle no-gutters">
             Your Income:{" "}
-            <span className="bold">${numberWithCommas(props.income)}</span>
+            <span className="bold">{numberFormatted(props.income)}</span>
           </h5>
         </Grid>
         <Grid item xs={12} style={{ alignSelf: "start" }}>
           <Filter filter={filter} setFilter={setFilter} />
         </Grid>
         <Grid item xs={12} container justifyContent="space-between">
-          {agents.slice(0, elementsIndex).map((agent) => (
-            <Grid
-              item
-              md={4}
-              sm={6}
-              xs={12}
-              sx={{
-                padding: `${
-                  !isUpToSm ? "16px 0px 0px 0px" : "16px 24px 0px 0px"
-                }`,
-                textAlign: "-webkit-center",
-              }}
-            >
-              <Card key={agent.id} {...agent} />
+          {agents.hasLoaded && agents.value.length === 0 && (
+            <Grid container>
+              <Grid item xs={12}>
+                <h5>
+                  No available Agents based on your income. Please try a
+                  different income value.
+                </h5>
+              </Grid>
+              <Grid item xs={12}>
+                <button
+                  className="button-contained"
+                  onClick={() => props.setPageState("income")}
+                >
+                  Change Income
+                </button>
+              </Grid>
             </Grid>
-          ))}
+          )}
+          {agents.hasLoaded &&
+            agents.value.length !== 0 &&
+            agents.value.slice(0, elementsIndex).map((agent) => (
+              <Grid
+                item
+                md={4}
+                sm={6}
+                xs={12}
+                sx={{
+                  padding: `${
+                    !isUpToSm ? "16px 0px 0px 0px" : "16px 24px 0px 0px"
+                  }`,
+                  textAlign: "-webkit-center",
+                }}
+              >
+                <Card key={agent.id} {...agent} />
+              </Grid>
+            ))}
         </Grid>
         <Grid
           container
@@ -149,7 +174,7 @@ function MatchPage(props: MatchPageProps) {
                 (prevElementsIndex) => prevElementsIndex - ELEMENTS_PER_PAGE
               );
             }}
-            disabled={elementsIndex <= 3}
+            disabled={elementsIndex <= 3 || agents.value.length === 0}
           >
             Show less -
           </button>
@@ -160,7 +185,10 @@ function MatchPage(props: MatchPageProps) {
                 (prevElementsIndex) => prevElementsIndex + ELEMENTS_PER_PAGE
               );
             }}
-            disabled={elementsIndex + ELEMENTS_PER_PAGE >= agents.length}
+            disabled={
+              elementsIndex + ELEMENTS_PER_PAGE >= agents.value.length ||
+              agents.value.length === 0
+            }
           >
             Show more +
           </button>
