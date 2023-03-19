@@ -1,4 +1,4 @@
-import ZoeLogo from "../assets/image 33.png";
+import ZoeLogo from "../assets/image 34.svg";
 
 function Navbar() {
   return (
