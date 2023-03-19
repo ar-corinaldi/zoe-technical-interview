@@ -30,16 +30,20 @@ const filterAndSortingAgentsByThreshold = ({
   agents,
   income,
   filter,
+  hiddenAgentsDict,
 }: {
   agents: IAgent[];
   income: number;
   filter: FilterTypes;
+  hiddenAgentsDict: Record<number, IAgent>;
 }) => {
-  const filteredAgents = agents.filter(
-    (agent) =>
-      agent.income <= income + THRESHOLD_VALUE &&
-      agent.income >= income - THRESHOLD_VALUE
-  );
+  const filteredAgents = agents
+    .filter((agent) => !(agent.id in hiddenAgentsDict))
+    .filter(
+      (agent) =>
+        agent.income <= income + THRESHOLD_VALUE &&
+        agent.income >= income - THRESHOLD_VALUE
+    );
 
   const sortedAgents = filteredAgents.sort((agentA, agentB) => {
     const difA = Math.abs(agentA.income - income);
@@ -61,6 +65,11 @@ function MatchPage(props: MatchPageProps) {
     hasLoaded: boolean;
     value: IAgent[];
   }>({ hasLoaded: false, value: [] });
+
+  const [hiddenAgentsDict, setHiddenAgentsDict] = React.useState<
+    Record<number, IAgent>
+  >({});
+
   const [elementsIndex, setElementsIndex] = React.useState(3);
   const [filter, setFilter] = React.useState<FilterTypes>(
     "(Default) Income: Closest first"
@@ -79,10 +88,11 @@ function MatchPage(props: MatchPageProps) {
             income: props.income,
             agents,
             filter,
+            hiddenAgentsDict,
           }),
         });
       });
-  }, [filter]);
+  }, [filter, hiddenAgentsDict]);
 
   return (
     <Grid
@@ -146,9 +156,11 @@ function MatchPage(props: MatchPageProps) {
             agents.value.slice(0, elementsIndex).map((agent) => (
               <Grid
                 item
+                key={agent.id}
                 md={4}
                 sm={6}
                 xs={12}
+                display={agent.id in hiddenAgentsDict ? "none" : "block"}
                 sx={{
                   padding: `${
                     !isUpToSm ? "16px 0px 0px 0px" : "16px 24px 0px 0px"
@@ -156,7 +168,7 @@ function MatchPage(props: MatchPageProps) {
                   textAlign: "-webkit-center",
                 }}
               >
-                <Card key={agent.id} {...agent} />
+                <Card agent={agent} setHiddenAgentsDict={setHiddenAgentsDict} />
               </Grid>
             ))}
         </Grid>
