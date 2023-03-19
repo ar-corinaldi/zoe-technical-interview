@@ -12,6 +12,13 @@ function Card(props: CardProps) {
   const theme = useTheme();
   const isUpToSm = useMediaQuery(theme.breakpoints.up("sm"));
 
+  const handleOnClickCard = () => {
+    props.setHiddenAgentsDict((prev) => ({
+      ...prev,
+      [props.agent.id]: { ...props.agent },
+    }));
+  };
+
   if (!isUpToSm) {
     return (
       <Grid
@@ -23,12 +30,7 @@ function Card(props: CardProps) {
           boxShadow: "0px 8px 16px rgba(29, 35, 58, 0.1)",
           borderRadius: "12px",
         }}
-        onClick={() =>
-          props.setHiddenAgentsDict((prev) => ({
-            ...prev,
-            [props.agent.id]: { ...props.agent },
-          }))
-        }
+        onClick={() => handleOnClickCard()}
       >
         <Grid item xs={4}>
           <Avatar
@@ -54,15 +56,7 @@ function Card(props: CardProps) {
   }
 
   return (
-    <div
-      className="card secondary-color"
-      onClick={() =>
-        props.setHiddenAgentsDict((prev) => ({
-          ...prev,
-          [props.agent.id]: { ...props.agent },
-        }))
-      }
-    >
+    <div className="card secondary-color" onClick={() => handleOnClickCard()}>
       <div className="card-body">
         <Avatar
           style={{ width: "112px", height: "112px" }}
