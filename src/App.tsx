@@ -13,10 +13,9 @@ function App() {
       <Navbar />
       <main
         style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
           height: "92vh",
+          display: "flex",
+          padding: "32px",
         }}
       >
         {pageState === "income" && (
