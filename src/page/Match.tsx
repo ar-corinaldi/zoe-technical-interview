@@ -138,28 +138,11 @@ function MatchPage(props: MatchPageProps) {
           gap={2}
           justifyContent={isUpToMd ? "end" : "space-between"}
         >
-          <button
-            className="pagination-button"
-            onClick={() => {
-              setElementsIndex(
-                (prevElementsIndex) => prevElementsIndex - ELEMENTS_PER_PAGE
-              );
-            }}
-            disabled={elementsIndex <= 3 || agents.value.length <= 3}
-          >
-            Show less -
-          </button>
-          <button
-            className="pagination-button"
-            onClick={() => {
-              setElementsIndex(
-                (prevElementsIndex) => prevElementsIndex + ELEMENTS_PER_PAGE
-              );
-            }}
-            disabled={elementsIndex >= agents.value.length}
-          >
-            Show more +
-          </button>
+          <PaginationButtons
+            agentsSize={agents.value.length}
+            elementsIndex={elementsIndex}
+            setElementsIndex={setElementsIndex}
+          />
         </Grid>
       </Grid>
     </Grid>
