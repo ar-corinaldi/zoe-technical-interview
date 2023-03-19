@@ -1,5 +1,4 @@
 import { MenuItem, Select, useMediaQuery, useTheme } from "@mui/material";
-import React from "react";
 
 const FILTER_OPTIONS = [
   "Name (A-Z)",

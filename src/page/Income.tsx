@@ -1,4 +1,3 @@
-import React from "react";
 import LeftArrowIcon from "../assets/left-arrow.png";
 import GroupIcon from "../assets/group-icon.svg";
 import DollarIcon from "../assets/Currency.png";
