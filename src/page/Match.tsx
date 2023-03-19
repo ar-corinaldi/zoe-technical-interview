@@ -80,44 +80,91 @@ function MatchPage(props: MatchPageProps) {
   }, [filter]);
 
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Typography variant="h3" fontWeight="bold">
-          Your Matches
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <ul>
+    <Grid
+      container
+      style={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        gap: "32px",
+        textAlign: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Grid
+        item
+        xs={12}
+        container
+        style={{
+          maxWidth: "912px",
+          display: "flex",
+          gap: "32px",
+          paddingBottom: "32px",
+        }}
+      >
+        <Grid
+          container
+          item
+          xs={12}
+          style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+        >
+          <h3 className="title no-gutters">Your matches</h3>
+          <h5 className="subtitle no-gutters">
+            Your Income:{" "}
+            <span className="bold">${numberWithCommas(props.income)}</span>
+          </h5>
+        </Grid>
+        <Grid item xs={12} style={{ alignSelf: "start" }}>
+          <Filter filter={filter} setFilter={setFilter} />
+        </Grid>
+        <Grid item xs={12} container justifyContent="space-between">
           {agents.slice(0, elementsIndex).map((agent) => (
-            <li key={agent.id}>
-              {agent.name}, {agent.income}
-            </li>
+            <Grid
+              item
+              md={4}
+              sm={6}
+              xs={12}
+              sx={{
+                padding: `${
+                  !isUpToSm ? "16px 0px 0px 0px" : "16px 24px 0px 0px"
+                }`,
+                textAlign: "-webkit-center",
+              }}
+            >
+              <Card key={agent.id} {...agent} />
+            </Grid>
           ))}
-        </ul>
-      </Grid>
-      <Grid item xs={12}>
-        <Button
-          variant="contained"
-          onClick={() => {
-            setElementsIndex(
-              (prevElementsIndex) => prevElementsIndex - ELEMENTS_PER_PAGE
-            );
-          }}
-          disabled={elementsIndex <= 3}
+        </Grid>
+        <Grid
+          container
+          item
+          xs={12}
+          gap={2}
+          justifyContent={isUpToMd ? "end" : "space-between"}
         >
-          see less
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {
-            setElementsIndex(
-              (prevElementsIndex) => prevElementsIndex + ELEMENTS_PER_PAGE
-            );
-          }}
-          disabled={elementsIndex + ELEMENTS_PER_PAGE >= agents.length}
-        >
-          see more
-        </Button>
+          <button
+            className="pagination-button"
+            onClick={() => {
+              setElementsIndex(
+                (prevElementsIndex) => prevElementsIndex - ELEMENTS_PER_PAGE
+              );
+            }}
+            disabled={elementsIndex <= 3}
+          >
+            Show less -
+          </button>
+          <button
+            className="pagination-button"
+            onClick={() => {
+              setElementsIndex(
+                (prevElementsIndex) => prevElementsIndex + ELEMENTS_PER_PAGE
+              );
+            }}
+            disabled={elementsIndex + ELEMENTS_PER_PAGE >= agents.length}
+          >
+            Show more +
+          </button>
+        </Grid>
       </Grid>
     </Grid>
   );
