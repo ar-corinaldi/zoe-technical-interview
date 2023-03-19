@@ -210,3 +210,15 @@
 button:disabled.pagination-button {
   color: #B4B4B4;
 }
+
+button:hover{
+  cursor: pointer;
+}
+
+button:hover > label{
+  cursor: pointer;
+}
+
+button:hover:disabled{
+  cursor: auto;
+}
