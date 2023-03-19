@@ -1,10 +1,4 @@
-import {
-  Button,
-  Grid,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import { IAgent } from "../interfaces";
 import Card from "../components/Card";
@@ -187,7 +181,7 @@ function MatchPage(props: MatchPageProps) {
                 (prevElementsIndex) => prevElementsIndex - ELEMENTS_PER_PAGE
               );
             }}
-            disabled={elementsIndex <= 3 || agents.value.length === 0}
+            disabled={elementsIndex <= 3 || agents.value.length <= 3}
           >
             Show less -
           </button>
@@ -198,9 +192,7 @@ function MatchPage(props: MatchPageProps) {
                 (prevElementsIndex) => prevElementsIndex + ELEMENTS_PER_PAGE
               );
             }}
-            disabled={
-              elementsIndex >= agents.value.length || agents.value.length === 0
-            }
+            disabled={elementsIndex >= agents.value.length}
           >
             Show more +
           </button>
