@@ -91,6 +91,7 @@ function MatchPage(props: MatchPageProps) {
             hiddenAgentsDict,
           }),
         });
+        if (elementsIndex > agents.length) setElementsIndex(3);
       });
   }, [filter, hiddenAgentsDict]);
 
@@ -198,8 +199,7 @@ function MatchPage(props: MatchPageProps) {
               );
             }}
             disabled={
-              elementsIndex + ELEMENTS_PER_PAGE >= agents.value.length ||
-              agents.value.length === 0
+              elementsIndex >= agents.value.length || agents.value.length === 0
             }
           >
             Show more +
