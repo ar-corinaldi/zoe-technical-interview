@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Grid } from "@mui/material";
+import { IncomeContext } from "../App";
+import { useContext } from "react";
 
 const schema = z.object({
   income: z.number().max(99_999).min(10_000),
@@ -17,17 +19,19 @@ const defaultValues: IncomeForm = {
 
 type IcomePageProps = {
   setPageState: (x: "income" | "match") => void;
-  setIncome: (x: number) => void;
 };
 
 function IncomePage(props: IcomePageProps) {
+  const incomeContext = useContext(IncomeContext);
+  if (incomeContext === null) return null;
+  const [_income, setIncome] = incomeContext;
   const { handleSubmit, setValue, formState } = useForm({
     defaultValues,
     resolver: zodResolver(schema),
   });
 
   const onSuccess = (values: any) => {
-    props.setIncome(values.income);
+    setIncome(values.income);
     props.setPageState("match");
   };
 

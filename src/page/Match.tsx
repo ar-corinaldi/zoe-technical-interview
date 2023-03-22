@@ -6,16 +6,19 @@ import Filter, { type FilterTypes } from "../components/Filter";
 import useMatchPage from "../hooks";
 import PaginationButtons from "../components/PaginationButtons";
 import IncomePage from "./Income";
+import { IncomeContext } from "../App";
 
 type MatchPageProps = {
-  income: number;
   setPageState: (x: "income" | "match") => void;
-  setIncome: (x: number) => void;
 };
 
 export const ELEMENTS_PER_PAGE = 3;
 
 function MatchPage(props: MatchPageProps) {
+  const incomeContext = React.useContext(IncomeContext);
+  if (incomeContext === null) return null;
+  const [income] = incomeContext;
+
   const [agents, setAgents] = React.useState<{
     hasLoaded: boolean;
     value: IAgent[];
@@ -32,11 +35,7 @@ function MatchPage(props: MatchPageProps) {
   const theme = useTheme();
   const isUpToMd = useMediaQuery(theme.breakpoints.up("md"));
   const isUpToSm = useMediaQuery(theme.breakpoints.up("sm"));
-  const {
-    filterAndSortingAgentsByThreshold,
-    numberFormatted,
-    strategSortByFilter,
-  } = useMatchPage();
+  const { filterAndSortingAgentsByThreshold, numberFormatted } = useMatchPage();
 
   React.useEffect(() => {
     fetch("AGENTS_LIST.json")
@@ -45,7 +44,7 @@ function MatchPage(props: MatchPageProps) {
         setAgents({
           hasLoaded: true,
           value: filterAndSortingAgentsByThreshold({
-            income: props.income,
+            income: income,
             agents,
             filter,
             hiddenAgentsDict,
@@ -53,7 +52,7 @@ function MatchPage(props: MatchPageProps) {
         });
         if (elementsIndex > agents.length) setElementsIndex(3);
       });
-  }, [filter, hiddenAgentsDict]);
+  }, [filter, hiddenAgentsDict, income]);
 
   return (
     <Grid
@@ -86,15 +85,11 @@ function MatchPage(props: MatchPageProps) {
         >
           <h3 className="title no-gutters">Your matches</h3>
           <h5 className="subtitle no-gutters">
-            Your Income:{" "}
-            <span className="bold">{numberFormatted(props.income)}</span>
+            Your Income: <span className="bold">{numberFormatted(income)}</span>
           </h5>
         </Grid>
         <Grid item xs={12}>
-          <IncomePage
-            setIncome={props.setIncome}
-            setPageState={props.setPageState}
-          />
+          <IncomePage setPageState={props.setPageState} />
         </Grid>
         <Grid item xs={12} style={{ alignSelf: "start" }}>
           <Filter filter={filter} setFilter={setFilter} />
