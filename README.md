@@ -1,6 +1,6 @@
 # zoe-technical-interview
 
-6. You will find test coverage in src/__tests__ and you can run the tests by typing:
+6. You will find test coverage in src/\_\_tests\_\_ and you can run the tests by typing:
 ```
 npm run test
 ```
