@@ -5,10 +5,12 @@ import Card from "../components/Card";
 import Filter, { type FilterTypes } from "../components/Filter";
 import useMatchPage from "../hooks";
 import PaginationButtons from "../components/PaginationButtons";
+import IncomePage from "./Income";
 
 type MatchPageProps = {
   income: number;
   setPageState: (x: "income" | "match") => void;
+  setIncome: (x: number) => void;
 };
 
 export const ELEMENTS_PER_PAGE = 3;
@@ -87,6 +89,12 @@ function MatchPage(props: MatchPageProps) {
             Your Income:{" "}
             <span className="bold">{numberFormatted(props.income)}</span>
           </h5>
+        </Grid>
+        <Grid item xs={12}>
+          <IncomePage
+            setIncome={props.setIncome}
+            setPageState={props.setPageState}
+          />
         </Grid>
         <Grid item xs={12} style={{ alignSelf: "start" }}>
           <Filter filter={filter} setFilter={setFilter} />

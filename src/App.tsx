@@ -22,7 +22,11 @@ function App() {
           <IncomePage setPageState={setPageState} setIncome={setIncome} />
         )}
         {pageState === "match" && (
-          <MatchPage income={income} setPageState={setPageState} />
+          <MatchPage
+            income={income}
+            setPageState={setPageState}
+            setIncome={setIncome}
+          />
         )}
         {!["income", "match"].includes(pageState) && <div>Page Not Found</div>}
       </main>
